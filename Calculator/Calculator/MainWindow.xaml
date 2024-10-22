@@ -1,0 +1,164 @@
+﻿<Window x:Class="Calculator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Calculator"
+        mc:Ignorable="d"
+        Title="계산기" Height="520" Width="340" MinWidth="340" MinHeight="520">
+
+    <Window.Resources>
+        <Style TargetType="{x:Type Button}" x:Key="BtnWhite">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border BorderThickness="1">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type Button}" x:Key="MiniBtn">
+            <Setter Property="Width" Value="25"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border BorderThickness="1" Background="#FFF3F3F3">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type Button}" x:Key="RoundBtnWhile1">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border CornerRadius="5" BorderBrush="DarkGray" BorderThickness="1" Background="White">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type Button}" x:Key="RoundBtnWhile2">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border CornerRadius="5" BorderBrush="DarkGray" BorderThickness="1" Background="#FFF9F9F9">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type Button}" x:Key="RoundBtnBlue">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border CornerRadius="5" BorderBrush="DarkGray" BorderThickness="1" Background="#FF005A9E">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="0,0,0,0">
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60*"/>
+            <RowDefinition Height="90*"/>
+            <RowDefinition Height="30*"/>
+            <RowDefinition Height="320*"/>
+        </Grid.RowDefinitions>
+        
+        <Grid Grid.Row="0" Background="#FFF3F3F3">
+            <Button Style="{StaticResource MiniBtn}"  HorizontalAlignment="Right" Margin="0,0,10,0">
+                <Image Source="/Resource/Clock.png"/>
+            </Button>
+        </Grid>
+
+        <Grid Grid.Row="1" Background="#FFF3F3F3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="3*"/>
+            </Grid.RowDefinitions>
+            <TextBox Text="88" TextWrapping="Wrap" Background="#FFF3F3F3" TextAlignment="Right" Grid.Row="0" IsReadOnly="True" FontSize="18" VerticalAlignment="Center"/>
+            <TextBox Text="88" TextWrapping="Wrap" Background="#FFF3F3F3" TextAlignment="Right" Grid.Row="1" FontSize="36" FontWeight="Bold" VerticalAlignment="Center"/>
+        </Grid>
+        
+        <Grid Grid.Row="2" Background="#FFF3F3F3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Content="MC" Style="{StaticResource BtnWhite}"  Grid.Column="0" FontSize="14"/>
+            <Button Content="MR" Style="{StaticResource BtnWhite}"  Grid.Column="1" FontSize="14"/>
+            <Button Content="M+" Style="{StaticResource BtnWhite}"  Grid.Column="2" FontSize="14"/>
+            <Button Content="M-" Style="{StaticResource BtnWhite}"  Grid.Column="3" FontSize="14"/>
+            <Button Content="MS" Style="{StaticResource BtnWhite}"  Grid.Column="4" FontSize="14"/>
+            <Button Content="M∨" Style="{StaticResource BtnWhite}" Grid.Column="5" FontSize="14"/>
+        </Grid>
+        
+        <Grid Grid.Row="3" Background="#FFF3F3F3">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+
+            <Button Content="%"     Style="{StaticResource RoundBtnWhile2}" Grid.Column="0" Grid.Row="0" FontSize="18"/>
+            <Button Content="CE"    Style="{StaticResource RoundBtnWhile2}" Grid.Column="1" Grid.Row="0" FontSize="18"/>
+            <Button Content="C"     Style="{StaticResource RoundBtnWhile2}" Grid.Column="2" Grid.Row="0" FontSize="18"/>
+            <Button Content="←"    Style="{StaticResource RoundBtnWhile2}" Grid.Column="3" Grid.Row="0" FontSize="18"/>
+            <Button Content="1/x"   Style="{StaticResource RoundBtnWhile2}" Grid.Column="0" Grid.Row="1" FontSize="18"/>
+            <Button Content="x^2"   Style="{StaticResource RoundBtnWhile2}" Grid.Column="1" Grid.Row="1" FontSize="18"/>
+            <Button Content="2√x"  Style="{StaticResource RoundBtnWhile2}" Grid.Column="2" Grid.Row="1" FontSize="18"/>
+            <Button Content="/"     Style="{StaticResource RoundBtnWhile2}" Grid.Column="3" Grid.Row="1" FontSize="18"/>
+            <Button Content="X"     Style="{StaticResource RoundBtnWhile2}" Grid.Column="3" Grid.Row="2" FontSize="18"/>
+            <Button Content="-"     Style="{StaticResource RoundBtnWhile2}" Grid.Column="3" Grid.Row="3" FontSize="18"/>
+            <Button Content="+"     Style="{StaticResource RoundBtnWhile2}" Grid.Column="3" Grid.Row="4" FontSize="18"/>
+
+            <Button Content="7"     Style="{StaticResource RoundBtnWhile1}"  Grid.Column="0" Grid.Row="2" FontSize="18"/>
+            <Button Content="8"     Style="{StaticResource RoundBtnWhile1}"  Grid.Column="1" Grid.Row="2" FontSize="18"/>
+            <Button Content="9"     Style="{StaticResource RoundBtnWhile1}"  Grid.Column="2" Grid.Row="2" FontSize="18"/>
+            <Button Content="4"     Style="{StaticResource RoundBtnWhile1}"  Grid.Column="0" Grid.Row="3" FontSize="18"/>
+            <Button Content="5"     Style="{StaticResource RoundBtnWhile1}"  Grid.Column="1" Grid.Row="3" FontSize="18"/>
+            <Button Content="6"     Style="{StaticResource RoundBtnWhile1}"  Grid.Column="2" Grid.Row="3" FontSize="18"/>
+            <Button Content="1"     Style="{StaticResource RoundBtnWhile1}"  Grid.Column="0" Grid.Row="4" FontSize="18"/>
+            <Button Content="2"     Style="{StaticResource RoundBtnWhile1}"  Grid.Column="1" Grid.Row="4" FontSize="18"/>
+            <Button Content="3"     Style="{StaticResource RoundBtnWhile1}"  Grid.Column="2" Grid.Row="4" FontSize="18"/>
+            <Button Content="+/-"   Style="{StaticResource RoundBtnWhile1}"  Grid.Column="0" Grid.Row="5" FontSize="18"/>
+            <Button Content="0"     Style="{StaticResource RoundBtnWhile1}"  Grid.Column="1" Grid.Row="5" FontSize="18"/>
+            <Button Content="."     Style="{StaticResource RoundBtnWhile1}"  Grid.Column="2" Grid.Row="5" FontSize="18"/>
+            
+            <Button Content="="     Style="{StaticResource RoundBtnBlue}" Grid.Column="4" Grid.Row="5" Foreground="White" FontSize="24"/>
+        </Grid>
+        
+    </Grid>
+</Window>

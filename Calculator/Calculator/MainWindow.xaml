@@ -3,70 +3,118 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Calculator"
+        xmlns:local="clr-namespace:Calculator" 
+        xmlns:ViewModel="clr-namespace:Calculator.ViewModel"
         mc:Ignorable="d"
-        Title="계산기" Height="520" Width="340" MinWidth="340" MinHeight="520">
+    Title="계산기" Height="520" Width="340" MinWidth="340" MinHeight="520">
+    <Window.DataContext>
+        <ViewModel:MainViewModel xmlns:ViewModel="clr-namespace:Calculator.ViewModel"/>
+    </Window.DataContext>
 
     <Window.Resources>
-        <Style TargetType="{x:Type Button}" x:Key="BtnWhite">
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="BorderBrush" Value="White"/>
+        <ViewModel:MainViewModel x:Key="viewModel"/>
+        <Style TargetType="{x:Type Button}" x:Key="BtnMemory">
+            <!--메모리 버튼 스타일-->
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        <Border BorderThickness="1">
+                        <Border x:Name="buttonMemory" CornerRadius="5" Background="#FFF3F3F3" BorderThickness="1" BorderBrush="#FFF3F3F3">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="buttonMemory" Property="Background" Value="LightGray"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="buttonMemory"  Property="Background" Value="Gray"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
 
-        <Style TargetType="{x:Type Button}" x:Key="MiniBtn">
+        <Style TargetType="{x:Type Button}" x:Key="BtnHistory">
+            <!--히스토리 버튼 스타일-->
             <Setter Property="Width" Value="25"/>
             <Setter Property="Height" Value="25"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        <Border BorderThickness="1" Background="#FFF3F3F3">
+                        <Border x:Name="buttonHistory" CornerRadius="5" Background="#FFF3F3F3" BorderThickness="1" BorderBrush="#FFF3F3F3">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="buttonHistory" Property="Background" Value="LightGray"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="buttonHistory"  Property="Background" Value="Gray"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
 
-        <Style TargetType="{x:Type Button}" x:Key="RoundBtnWhile1">
+        <Style TargetType="{x:Type Button}" x:Key="BtnNumber">
+            <!--숫자 버튼 스타일-->
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        <Border CornerRadius="5" BorderBrush="DarkGray" BorderThickness="1" Background="White">
+                        <Border x:Name="buttonNumber" CornerRadius="5" BorderBrush="DarkGray" BorderThickness="1" Background="White">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="buttonNumber" Property="Background" Value="LightGray"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="buttonNumber"  Property="Background" Value="Gray"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
 
-        <Style TargetType="{x:Type Button}" x:Key="RoundBtnWhile2">
+        <Style TargetType="{x:Type Button}" x:Key="BtnOperator">
+            <!--연산자, 초기화 버튼 스타일-->
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        <Border CornerRadius="5" BorderBrush="DarkGray" BorderThickness="1" Background="#FFF9F9F9">
+                        <Border x:Name="buttonOperator" CornerRadius="5" BorderBrush="DarkGray" BorderThickness="1" Background="#FFF9F9F9">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="buttonOperator" Property="Background" Value="LightGray"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="buttonOperator"  Property="Background" Value="Gray"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
 
-        <Style TargetType="{x:Type Button}" x:Key="RoundBtnBlue">
+        <Style TargetType="{x:Type Button}" x:Key="BtnEqual">
+            <!-- = 버튼 스타일-->
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        <Border CornerRadius="5" BorderBrush="DarkGray" BorderThickness="1" Background="#FF005A9E">
+                        <Border x:Name="buttonEqual" CornerRadius="5" BorderBrush="DarkGray" BorderThickness="1" Background="#FF005A9E">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="buttonEqual" Property="Background" Value="SteelBlue"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="buttonEqual" Property="Background" Value="#FF005A9E"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -74,16 +122,16 @@
     </Window.Resources>
 
     <Grid Margin="0,0,0,0">
-        
+
         <Grid.RowDefinitions>
-            <RowDefinition Height="60*"/>
-            <RowDefinition Height="90*"/>
-            <RowDefinition Height="30*"/>
-            <RowDefinition Height="320*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="10.5*"/>
         </Grid.RowDefinitions>
-        
+
         <Grid Grid.Row="0" Background="#FFF3F3F3">
-            <Button Style="{StaticResource MiniBtn}"  HorizontalAlignment="Right" Margin="0,0,10,0">
+            <Button Style="{StaticResource BtnHistory}"  HorizontalAlignment="Right" Margin="0,0,10,0">
                 <Image Source="/Resource/Clock.png"/>
             </Button>
         </Grid>
@@ -93,10 +141,10 @@
                 <RowDefinition Height="2*"/>
                 <RowDefinition Height="3*"/>
             </Grid.RowDefinitions>
-            <TextBox Text="88" TextWrapping="Wrap" Background="#FFF3F3F3" TextAlignment="Right" Grid.Row="0" IsReadOnly="True" FontSize="18" VerticalAlignment="Center"/>
-            <TextBox Text="88" TextWrapping="Wrap" Background="#FFF3F3F3" TextAlignment="Right" Grid.Row="1" FontSize="36" FontWeight="Bold" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding DisplayText, Source={StaticResource viewModel}}" TextWrapping="Wrap" Background="#FFF3F3F3" TextAlignment="Right" Grid.Row="0" FontSize="18" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding DisplayText, Source={StaticResource viewModel}}" TextWrapping="Wrap" Background="#FFF3F3F3" TextAlignment="Right" Grid.Row="1" FontSize="36" FontWeight="Bold" VerticalAlignment="Center"/>
         </Grid>
-        
+
         <Grid Grid.Row="2" Background="#FFF3F3F3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
@@ -107,14 +155,14 @@
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
 
-            <Button Content="MC" Style="{StaticResource BtnWhite}"  Grid.Column="0" FontSize="14"/>
-            <Button Content="MR" Style="{StaticResource BtnWhite}"  Grid.Column="1" FontSize="14"/>
-            <Button Content="M+" Style="{StaticResource BtnWhite}"  Grid.Column="2" FontSize="14"/>
-            <Button Content="M-" Style="{StaticResource BtnWhite}"  Grid.Column="3" FontSize="14"/>
-            <Button Content="MS" Style="{StaticResource BtnWhite}"  Grid.Column="4" FontSize="14"/>
-            <Button Content="M∨" Style="{StaticResource BtnWhite}" Grid.Column="5" FontSize="14"/>
+            <Button Content="MC"  Style="{StaticResource BtnMemory}"  Grid.Column="0" FontSize="14"/>
+            <Button Content="MR"  Style="{StaticResource BtnMemory}"  Grid.Column="1" FontSize="14"/>
+            <Button Content="M+"  Style="{StaticResource BtnMemory}"  Grid.Column="2" FontSize="14"/>
+            <Button Content="M-"  Style="{StaticResource BtnMemory}"  Grid.Column="3" FontSize="14"/>
+            <Button Content="MS"  Style="{StaticResource BtnMemory}"  Grid.Column="4" FontSize="14"/>
+            <Button Content="M∨" Style="{StaticResource BtnMemory}"  Grid.Column="5" FontSize="14"/>
         </Grid>
-        
+
         <Grid Grid.Row="3" Background="#FFF3F3F3">
 
             <Grid.ColumnDefinitions>
@@ -132,33 +180,33 @@
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
 
-            <Button Content="%"     Style="{StaticResource RoundBtnWhile2}" Grid.Column="0" Grid.Row="0" FontSize="18"/>
-            <Button Content="CE"    Style="{StaticResource RoundBtnWhile2}" Grid.Column="1" Grid.Row="0" FontSize="18"/>
-            <Button Content="C"     Style="{StaticResource RoundBtnWhile2}" Grid.Column="2" Grid.Row="0" FontSize="18"/>
-            <Button Content="←"    Style="{StaticResource RoundBtnWhile2}" Grid.Column="3" Grid.Row="0" FontSize="18"/>
-            <Button Content="1/x"   Style="{StaticResource RoundBtnWhile2}" Grid.Column="0" Grid.Row="1" FontSize="18"/>
-            <Button Content="x^2"   Style="{StaticResource RoundBtnWhile2}" Grid.Column="1" Grid.Row="1" FontSize="18"/>
-            <Button Content="2√x"  Style="{StaticResource RoundBtnWhile2}" Grid.Column="2" Grid.Row="1" FontSize="18"/>
-            <Button Content="/"     Style="{StaticResource RoundBtnWhile2}" Grid.Column="3" Grid.Row="1" FontSize="18"/>
-            <Button Content="X"     Style="{StaticResource RoundBtnWhile2}" Grid.Column="3" Grid.Row="2" FontSize="18"/>
-            <Button Content="-"     Style="{StaticResource RoundBtnWhile2}" Grid.Column="3" Grid.Row="3" FontSize="18"/>
-            <Button Content="+"     Style="{StaticResource RoundBtnWhile2}" Grid.Column="3" Grid.Row="4" FontSize="18"/>
+            <Button Content="%"     Style="{StaticResource BtnOperator}" Grid.Column="0" Grid.Row="0" FontSize="18"/>
+            <Button Content="CE"    Style="{StaticResource BtnOperator}" Grid.Column="1" Grid.Row="0" FontSize="18"/>
+            <Button Content="C"     Style="{StaticResource BtnOperator}" Grid.Column="2" Grid.Row="0" FontSize="18"/>
+            <Button Content="←"    Style="{StaticResource BtnOperator}" Grid.Column="3" Grid.Row="0" FontSize="18"/>
+            <Button Content="1/x"   Style="{StaticResource BtnOperator}" Grid.Column="0" Grid.Row="1" FontSize="18"/>
+            <Button Content="x^2"   Style="{StaticResource BtnOperator}" Grid.Column="1" Grid.Row="1" FontSize="18"/>
+            <Button Content="2√x"  Style="{StaticResource BtnOperator}" Grid.Column="2" Grid.Row="1" FontSize="18"/>
+            <Button Content="/"     Style="{StaticResource BtnOperator}" Grid.Column="3" Grid.Row="1" FontSize="18" CommandParameter="/" Command="{Binding Operator, Source={StaticResource viewModel}}"/>
+            <Button Content="X"     Style="{StaticResource BtnOperator}" Grid.Column="3" Grid.Row="2" FontSize="18" CommandParameter="*" Command="{Binding Operator, Source={StaticResource viewModel}}"/>
+            <Button Content="-"     Style="{StaticResource BtnOperator}" Grid.Column="3" Grid.Row="3" FontSize="18" CommandParameter="-" Command="{Binding Operator, Source={StaticResource viewModel}}"/>
+            <Button Content="+"     Style="{StaticResource BtnOperator}" Grid.Column="3" Grid.Row="4" FontSize="18" CommandParameter="+" Command="{Binding Operator, Source={StaticResource viewModel}}"/>
 
-            <Button Content="7"     Style="{StaticResource RoundBtnWhile1}"  Grid.Column="0" Grid.Row="2" FontSize="18"/>
-            <Button Content="8"     Style="{StaticResource RoundBtnWhile1}"  Grid.Column="1" Grid.Row="2" FontSize="18"/>
-            <Button Content="9"     Style="{StaticResource RoundBtnWhile1}"  Grid.Column="2" Grid.Row="2" FontSize="18"/>
-            <Button Content="4"     Style="{StaticResource RoundBtnWhile1}"  Grid.Column="0" Grid.Row="3" FontSize="18"/>
-            <Button Content="5"     Style="{StaticResource RoundBtnWhile1}"  Grid.Column="1" Grid.Row="3" FontSize="18"/>
-            <Button Content="6"     Style="{StaticResource RoundBtnWhile1}"  Grid.Column="2" Grid.Row="3" FontSize="18"/>
-            <Button Content="1"     Style="{StaticResource RoundBtnWhile1}"  Grid.Column="0" Grid.Row="4" FontSize="18"/>
-            <Button Content="2"     Style="{StaticResource RoundBtnWhile1}"  Grid.Column="1" Grid.Row="4" FontSize="18"/>
-            <Button Content="3"     Style="{StaticResource RoundBtnWhile1}"  Grid.Column="2" Grid.Row="4" FontSize="18"/>
-            <Button Content="+/-"   Style="{StaticResource RoundBtnWhile1}"  Grid.Column="0" Grid.Row="5" FontSize="18"/>
-            <Button Content="0"     Style="{StaticResource RoundBtnWhile1}"  Grid.Column="1" Grid.Row="5" FontSize="18"/>
-            <Button Content="."     Style="{StaticResource RoundBtnWhile1}"  Grid.Column="2" Grid.Row="5" FontSize="18"/>
-            
-            <Button Content="="     Style="{StaticResource RoundBtnBlue}" Grid.Column="4" Grid.Row="5" Foreground="White" FontSize="24"/>
+            <Button Content="7"     Style="{StaticResource BtnNumber}"  Grid.Column="0" Grid.Row="2" FontSize="18" CommandParameter="7" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+            <Button Content="8"     Style="{StaticResource BtnNumber}"  Grid.Column="1" Grid.Row="2" FontSize="18" CommandParameter="8" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+            <Button Content="9"     Style="{StaticResource BtnNumber}"  Grid.Column="2" Grid.Row="2" FontSize="18" CommandParameter="9" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+            <Button Content="4"     Style="{StaticResource BtnNumber}"  Grid.Column="0" Grid.Row="3" FontSize="18" CommandParameter="4" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+            <Button Content="5"     Style="{StaticResource BtnNumber}"  Grid.Column="1" Grid.Row="3" FontSize="18" CommandParameter="5" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+            <Button Content="6"     Style="{StaticResource BtnNumber}"  Grid.Column="2" Grid.Row="3" FontSize="18" CommandParameter="6" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+            <Button Content="1"     Style="{StaticResource BtnNumber}"  Grid.Column="0" Grid.Row="4" FontSize="18" CommandParameter="1" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+            <Button Content="2"     Style="{StaticResource BtnNumber}"  Grid.Column="1" Grid.Row="4" FontSize="18" CommandParameter="2" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+            <Button Content="3"     Style="{StaticResource BtnNumber}"  Grid.Column="2" Grid.Row="4" FontSize="18" CommandParameter="3" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+            <Button Content="+/-"   Style="{StaticResource BtnNumber}"  Grid.Column="0" Grid.Row="5" FontSize="18"/>
+            <Button Content="0"     Style="{StaticResource BtnNumber}"  Grid.Column="1" Grid.Row="5" FontSize="18" CommandParameter="0" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+            <Button Content="."     Style="{StaticResource BtnNumber}"  Grid.Column="2" Grid.Row="5" FontSize="18"/>
+
+            <Button Content="="     Style="{StaticResource BtnEqual}" Grid.Column="4" Grid.Row="5" Foreground="White" FontSize="24" CommandParameter="=" Command="{Binding Calculate, Source={StaticResource viewModel}}"/>
         </Grid>
-        
+
     </Grid>
 </Window>

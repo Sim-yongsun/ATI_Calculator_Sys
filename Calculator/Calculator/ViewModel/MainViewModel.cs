@@ -7,16 +7,17 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Calculator.Model;
 using Calculator.CalculatorClass;
+using Calculator.Global;
 
 namespace Calculator.ViewModel
 {
     public class MainViewModel : INotifyPropertyChanged
     {
         public MainModel model = null;
-        public AdvancedCalculator adCalculator = new AdvancedCalculator();
 
         string inputString = "";
         string displayText = "";
+        
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -24,7 +25,6 @@ namespace Calculator.ViewModel
         {
             this.model = new MainModel();
             this.Append = new Append(this);
-            this.Operator = new Operator(this);
             this.Calculate = new Calculate(this);
         }
 
@@ -58,11 +58,7 @@ namespace Calculator.ViewModel
             get { return displayText; }
         }
 
-        public string Op { get; set; } //연산자 저장
-        public double? Num1 { get; set; } //첫번째 입력 숫자 저장
-
         public ICommand Append { protected set; get; }
-        public ICommand Operator { protected set; get; }
         public ICommand Calculate { protected set; get; }
 
         protected void OnPropertyChanged(string propertyName)
@@ -77,7 +73,9 @@ namespace Calculator.ViewModel
     class Append : ICommand
     {
         private MainViewModel mainViewModel;
+        private Tools tools = new Tools();
         public event EventHandler CanExecuteChanged;
+        private GlobalVar global = GlobalVar.GetInstance();
 
         public Append(MainViewModel mainViewModel)
         {
@@ -91,50 +89,45 @@ namespace Calculator.ViewModel
 
         public void Execute(object parameter)
         {
-            mainViewModel.InputString += parameter;
-        }
-    }
+            string param = parameter.ToString();
+            int listCount = global.inputList.Count;
+            int listindex = 0;
+            if (listCount != 0) { listindex = listCount - 1; }
 
-    class Operator : ICommand
-    {
-        private MainViewModel mainViewModel;
-        public Operator(MainViewModel mainViewModel)
-        {
-            this.mainViewModel = mainViewModel;
-        }
-
-        public event EventHandler CanExecuteChanged
-        {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
-        }
-
-        public bool CanExecute(object parameter)
-        {
-            return 0 < mainViewModel.InputString.Length || parameter.ToString() == "-";
-        }
-
-        public void Execute(object parameter)
-        {
-            string op = parameter.ToString();
-            double num1;
-
-            if (double.TryParse(mainViewModel.InputString, out num1))
+            if (param == "+" || param == "-" || param == "*" || param == "/")
             {
-                mainViewModel.Num1 = num1;
-                mainViewModel.Op = op;
-                mainViewModel.InputString = "";
+                if (listCount != 0 && tools.NumberCheck(global.inputList[listindex]))
+                {
+                    AddList(param);
+                }
             }
-            else if (mainViewModel.InputString == "" && op == "-")
+            else if (listCount == 0 || !tools.NumberCheck(global.inputList[listindex]))
             {
-                mainViewModel.InputString = "-";
+                AddList(param);
             }
+            else
+            {
+                PlusList(param, listindex);
+            }
+        }
+
+        private void AddList(string param)
+        {
+            global.inputList.Add(param);
+            mainViewModel.InputString += param;
+        }
+        private void PlusList(string param, int listNum)
+        {
+            global.inputList[listNum] += param;
+            mainViewModel.InputString += param;
         }
     }
 
     class Calculate : ICommand
     {
         private MainViewModel mainViewModel;
+        private Tools tools = new Tools();
+        private GlobalVar global = GlobalVar.GetInstance();
         public Calculate(MainViewModel mainViewModel)
         {
             this.mainViewModel = mainViewModel;
@@ -147,30 +140,24 @@ namespace Calculator.ViewModel
 
         public bool CanExecute(object parameter)
         {
-            double num2;
-            return mainViewModel.Num1 != null && double.TryParse(mainViewModel.InputString, out num2) && (mainViewModel.Op != "/" || num2 != 0);
+            return true;
         }
 
         public void Execute(object parameter)
         {
-            double num2 = double.Parse(mainViewModel.InputString);
-            mainViewModel.InputString = Calculation(mainViewModel.Op, (double)mainViewModel.Num1, num2).ToString();
-            mainViewModel.Num1 = null;
+            double solution;
+            mainViewModel.InputString = string.Empty;
+            mainViewModel.model.SetGroup(global.inputList, ref global.inputNumber, ref global.inputOperator);
+            solution = mainViewModel.model.Calculation(ref global.inputNumber, ref global.inputOperator);
+            mainViewModel.DisplayText = solution.ToString();
+            ListAllClear();
         }
 
-        public double Calculation(string op, double num1, double num2)
+        public void ListAllClear()
         {
-            switch (op)
-            {
-                case "+": return mainViewModel.adCalculator.Plus(num1, num2);
-                case "-": return mainViewModel.adCalculator.Minus(num1, num2);
-                case "*": return mainViewModel.adCalculator.Multiply(num1, num2);
-                case "/": return mainViewModel.adCalculator.Divide(num1, num2);
-                    //case "/": return advancedCalculator.Sqrt(num1);
-                    //case "/": return advancedCalculator.Pow(num1);
-                    //case "/": return advancedCalculator.Frac(num1);
-            }
-            return 0;
+            global.inputList.Clear();
+            global.inputNumber.Clear();
+            global.inputOperator.Clear();
         }
     }
 }

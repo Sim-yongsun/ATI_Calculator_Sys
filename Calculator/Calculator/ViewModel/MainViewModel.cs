@@ -17,7 +17,7 @@ namespace Calculator.ViewModel
 
         string inputString = "";
         string displayText = "";
-        
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -26,6 +26,7 @@ namespace Calculator.ViewModel
             this.model = new MainModel();
             this.Append = new Append(this);
             this.Calculate = new Calculate(this);
+            this.Memory = new Memory(this);
         }
 
         public string InputString
@@ -60,6 +61,7 @@ namespace Calculator.ViewModel
 
         public ICommand Append { protected set; get; }
         public ICommand Calculate { protected set; get; }
+        public ICommand Memory { protected set; get; }
 
         protected void OnPropertyChanged(string propertyName)
         {
@@ -158,6 +160,71 @@ namespace Calculator.ViewModel
             global.inputList.Clear();
             global.inputNumber.Clear();
             global.inputOperator.Clear();
+        }
+    }
+
+    class Memory : ICommand
+    {
+        private MainViewModel mainViewModel;
+        private Tools tools = new Tools();
+        public event EventHandler CanExecuteChanged;
+        private GlobalVar global = GlobalVar.GetInstance();
+
+        public Memory(MainViewModel mainViewModel)
+        {
+            this.mainViewModel = mainViewModel;
+        }
+
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public void Execute(object parameter)
+        {
+            int inputListCount = global.inputList.Count;
+            int memListCount = global.inputMemList.Count;
+            string inputNum = mainViewModel.InputString;
+            string param = parameter.ToString();
+
+            if (inputListCount == 1)
+            {
+                if (memListCount == 0 || param == "S")
+                {
+                    if (tools.NumberCheck(inputNum))
+                    {
+                        AddList(tools.String2Double(inputNum));
+                    }
+                }
+                else if (param == "R")
+                {
+                    ReadList(memListCount - 1);
+                }
+                else if (param == "C")
+                {
+                    ClearList();
+                }
+                else
+                {
+                    mainViewModel.model.MemCalculation(param, tools.String2Double(inputNum), memListCount - 1, ref global.inputMemList);
+                }
+            }
+        }
+
+        private void AddList(double inputNum)
+        {
+            global.inputMemList.Add(inputNum);
+        }
+
+        private void ReadList(int listNum)
+        {
+            global.inputList[0] = global.inputMemList[listNum].ToString();
+            mainViewModel.DisplayText = global.inputList[0];
+        }
+
+        private void ClearList()
+        {
+            global.inputMemList.Clear();
         }
     }
 }

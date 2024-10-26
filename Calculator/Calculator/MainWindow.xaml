@@ -155,12 +155,12 @@
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
 
-            <Button Content="MC"  Style="{StaticResource BtnMemory}"  Grid.Column="0" FontSize="14"/>
-            <Button Content="MR"  Style="{StaticResource BtnMemory}"  Grid.Column="1" FontSize="14"/>
-            <Button Content="M+"  Style="{StaticResource BtnMemory}"  Grid.Column="2" FontSize="14"/>
-            <Button Content="M-"  Style="{StaticResource BtnMemory}"  Grid.Column="3" FontSize="14"/>
-            <Button Content="MS"  Style="{StaticResource BtnMemory}"  Grid.Column="4" FontSize="14"/>
-            <Button Content="M∨" Style="{StaticResource BtnMemory}"  Grid.Column="5" FontSize="14"/>
+            <Button Content="MC"  Style="{StaticResource BtnMemory}"  Grid.Column="0" FontSize="14" CommandParameter="C" Command="{Binding Memory, Source={StaticResource viewModel}}"/>
+            <Button Content="MR"  Style="{StaticResource BtnMemory}"  Grid.Column="1" FontSize="14" CommandParameter="R" Command="{Binding Memory, Source={StaticResource viewModel}}"/>
+            <Button Content="M+"  Style="{StaticResource BtnMemory}"  Grid.Column="2" FontSize="14" CommandParameter="+" Command="{Binding Memory, Source={StaticResource viewModel}}"/>
+            <Button Content="M-"  Style="{StaticResource BtnMemory}"  Grid.Column="3" FontSize="14" CommandParameter="-" Command="{Binding Memory, Source={StaticResource viewModel}}"/>
+            <Button Content="MS"  Style="{StaticResource BtnMemory}"  Grid.Column="4" FontSize="14" CommandParameter="S" Command="{Binding Memory, Source={StaticResource viewModel}}"/>
+            <Button Content="M∨" Style="{StaticResource BtnMemory}"  Grid.Column="5" FontSize="14" />
         </Grid>
 
         <Grid Grid.Row="3" Background="#FFF3F3F3">

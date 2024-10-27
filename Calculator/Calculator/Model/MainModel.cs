@@ -38,7 +38,7 @@ namespace Calculator.Model
             string opPlus = "+";
             string opMinus = "-";
 
-            if(numList.Count == opList.Count)
+            if (numList.Count == opList.Count)
             {
                 opList.RemoveAt(opList.Count - 1);
             }
@@ -100,6 +100,18 @@ namespace Calculator.Model
 
                         break;
                 }
+            }
+        }
+
+        public void MemCalculation(string oper, double num, int listNum, ref List<double> memList)
+        {
+            if (oper == "+")
+            {
+                memList[listNum] = adCalculator.Plus(memList[listNum], num);
+            }
+            else if (oper == "-")
+            {
+                memList[listNum] = adCalculator.Minus(memList[listNum], num);
             }
         }
 

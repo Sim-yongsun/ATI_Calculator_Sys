@@ -11,7 +11,7 @@ namespace Calculator.Global
         private static GlobalVar global = null;
         public static GlobalVar GetInstance()
         {
-            if(global != null)
+            if (global != null)
             {
                 return global;
             }
@@ -25,5 +25,8 @@ namespace Calculator.Global
         public List<string> inputList = new List<string>();
         public List<double> inputNumber = new List<double>();
         public List<string> inputOperator = new List<string>();
+
+        public List<double> inputMemList = new List<double>();
+        public List<string> inputLogList = new List<string>();
     }
 }

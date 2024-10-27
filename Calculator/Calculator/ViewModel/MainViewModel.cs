@@ -8,6 +8,7 @@ using System.Windows.Input;
 using Calculator.Model;
 using Calculator.CalculatorClass;
 using Calculator.Global;
+using System.Windows;
 
 namespace Calculator.ViewModel
 {
@@ -19,7 +20,6 @@ namespace Calculator.ViewModel
         string displayText = "";
         string displayNumText = "";
 
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         public MainViewModel()
@@ -29,6 +29,7 @@ namespace Calculator.ViewModel
             this.Calculate = new Calculate(this);
             this.Memory = new Memory(this);
             this.InputClear = new InputClear(this);
+            this.OpenWindow = new OpenWindow(OpenHistoryWindow);
         }
 
         public string InputString
@@ -74,10 +75,23 @@ namespace Calculator.ViewModel
             get { return displayText; }
         }
 
+        public void OpenHistoryWindow()
+        {
+            HistoryWindow hisWindow = new HistoryWindow();
+
+            var mainWindow = Application.Current.MainWindow;
+            hisWindow.Left = mainWindow.Left + mainWindow.Width;
+            hisWindow.Top = mainWindow.Top;
+
+            hisWindow.Owner = mainWindow;
+            hisWindow.Show();
+        }
+
         public ICommand Append { protected set; get; }
         public ICommand Calculate { protected set; get; }
         public ICommand Memory { protected set; get; }
         public ICommand InputClear { protected set; get; }
+        public ICommand OpenWindow { get; }
 
         protected void OnPropertyChanged(string propertyName)
         {
@@ -111,6 +125,7 @@ namespace Calculator.ViewModel
             int listCount = global.inputList.Count;
             int listindex = 0;
             if (listCount != 0) { listindex = listCount - 1; }
+            if (mainViewModel.DisplayNumText != string.Empty) { mainViewModel.DisplayNumText = string.Empty; }
 
             if (param == "+" || param == "-" || param == "*" || param == "/")
             {
@@ -144,7 +159,6 @@ namespace Calculator.ViewModel
     class Calculate : ICommand
     {
         private MainViewModel mainViewModel;
-        private Tools tools = new Tools();
         private GlobalVar global = GlobalVar.GetInstance();
         public Calculate(MainViewModel mainViewModel)
         {
@@ -168,6 +182,7 @@ namespace Calculator.ViewModel
             mainViewModel.model.SetGroup(global.inputList, ref global.inputNumber, ref global.inputOperator);
             solution = mainViewModel.model.Calculation(ref global.inputNumber, ref global.inputOperator);
             mainViewModel.DisplayNumText = solution.ToString();
+            SaveHistory();
             ListAllClear();
         }
 
@@ -176,6 +191,12 @@ namespace Calculator.ViewModel
             global.inputList.Clear();
             global.inputNumber.Clear();
             global.inputOperator.Clear();
+        }
+
+        public void SaveHistory()
+        {
+            global.inputLogList.Add(mainViewModel.DisplayText);
+            global.inputLogList.Add(mainViewModel.DisplayNumText);
         }
     }
 
@@ -311,5 +332,34 @@ namespace Calculator.ViewModel
                 mainViewModel.DisplayNumText = string.Empty;
             }
         }
+    }
+
+    public class OpenWindow : ICommand
+    {
+        private readonly Action _execute;
+        private readonly Func<bool> _canExecute;
+
+        public OpenWindow(Action execute, Func<bool> canExecute = null)
+        {
+            _execute = execute;
+            _canExecute = canExecute;
+        }
+        public event EventHandler CanExecuteChanged
+        {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }
+
+        public bool CanExecute(object parameter)
+        {
+            return _canExecute == null || _canExecute();
+        }
+
+        public void Execute(object parameter)
+        {
+            _execute();
+        }
+
+        
     }
 }

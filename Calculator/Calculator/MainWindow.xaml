@@ -133,7 +133,7 @@
         <KeyBinding Key="D7" CommandParameter="7" Command="{Binding Append, Source={StaticResource viewModel}}"/>
         <KeyBinding Key="D8" CommandParameter="8" Command="{Binding Append, Source={StaticResource viewModel}}"/>
         <KeyBinding Key="D9" CommandParameter="9" Command="{Binding Append, Source={StaticResource viewModel}}"/>
-        
+
         <!--숫자패드 숫자 입력-->
         <KeyBinding Key="NumPad0" CommandParameter="0" Command="{Binding Append, Source={StaticResource viewModel}}"/>
         <KeyBinding Key="NumPad1" CommandParameter="1" Command="{Binding Append, Source={StaticResource viewModel}}"/>
@@ -151,7 +151,7 @@
         <KeyBinding Key="OemMinus" CommandParameter="-" Command="{Binding Append, Source={StaticResource viewModel}}"/>
         <KeyBinding Key="D8" Modifiers="Shift" CommandParameter="*" Command="{Binding Append, Source={StaticResource viewModel}}"/>
         <KeyBinding Key="OemQuestion" CommandParameter="/" Command="{Binding Append, Source={StaticResource viewModel}}"/>
-        
+
         <!--숫자패드 연산자 입력-->
         <KeyBinding Key="Add" CommandParameter="+" Command="{Binding Append, Source={StaticResource viewModel}}"/>
         <KeyBinding Key="Subtract" CommandParameter="-" Command="{Binding Append, Source={StaticResource viewModel}}"/>
@@ -162,93 +162,94 @@
         <KeyBinding Key="Enter" CommandParameter="=" Command="{Binding Calculate, Source={StaticResource viewModel}}"/>
         <KeyBinding Key="Return" CommandParameter="=" Command="{Binding Calculate, Source={StaticResource viewModel}}"/>
     </Window.InputBindings>
-    
+
     <Grid Margin="0,0,0,0">
-
-        <Grid.RowDefinitions>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="3*"/>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="10.5*"/>
-        </Grid.RowDefinitions>
-
-        <Grid Grid.Row="0" Background="#FFF3F3F3">
-            <Button Style="{StaticResource BtnHistory}"  HorizontalAlignment="Right" Margin="0,0,10,0">
-                <Image Source="/Resource/Clock.png"/>
-            </Button>
-        </Grid>
-
-        <Grid Grid.Row="1" Background="#FFF3F3F3">
+        
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="2*"/>
                 <RowDefinition Height="3*"/>
-            </Grid.RowDefinitions>
-            <TextBlock Text="{Binding DisplayText, Source={StaticResource viewModel}}" TextWrapping="Wrap" Background="#FFF3F3F3" TextAlignment="Right" Grid.Row="0" FontSize="18" VerticalAlignment="Center"/>
-            <TextBlock Text="{Binding DisplayNumText, Source={StaticResource viewModel}}" TextWrapping="Wrap" Background="#FFF3F3F3" TextAlignment="Right" Grid.Row="1" FontSize="36" FontWeight="Bold" VerticalAlignment="Center"/>
-        </Grid>
-
-        <Grid Grid.Row="2" Background="#FFF3F3F3">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-            </Grid.ColumnDefinitions>
-
-            <Button Content="MC"  Style="{StaticResource BtnMemory}"  Grid.Column="0" FontSize="14" CommandParameter="C" Command="{Binding Memory, Source={StaticResource viewModel}}"/>
-            <Button Content="MR"  Style="{StaticResource BtnMemory}"  Grid.Column="1" FontSize="14" CommandParameter="R" Command="{Binding Memory, Source={StaticResource viewModel}}"/>
-            <Button Content="M+"  Style="{StaticResource BtnMemory}"  Grid.Column="2" FontSize="14" CommandParameter="+" Command="{Binding Memory, Source={StaticResource viewModel}}"/>
-            <Button Content="M-"  Style="{StaticResource BtnMemory}"  Grid.Column="3" FontSize="14" CommandParameter="-" Command="{Binding Memory, Source={StaticResource viewModel}}"/>
-            <Button Content="MS"  Style="{StaticResource BtnMemory}"  Grid.Column="4" FontSize="14" CommandParameter="S" Command="{Binding Memory, Source={StaticResource viewModel}}"/>
-            <Button Content="M∨" Style="{StaticResource BtnMemory}"  Grid.Column="5" FontSize="14" />
-        </Grid>
-
-        <Grid Grid.Row="3" Background="#FFF3F3F3">
-
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
+                <RowDefinition Height="10.5*"/>
             </Grid.RowDefinitions>
 
-            <Button Content="%"     Style="{StaticResource BtnOperator}" Grid.Column="0" Grid.Row="0" FontSize="18"/>
-            <Button Content="CE"    Style="{StaticResource BtnOperator}" Grid.Column="1" Grid.Row="0" FontSize="18" CommandParameter="CE" Command="{Binding InputClear, Source={StaticResource viewModel}}"/>
-            <Button Content="C"     Style="{StaticResource BtnOperator}" Grid.Column="2" Grid.Row="0" FontSize="18" CommandParameter="C" Command="{Binding InputClear, Source={StaticResource viewModel}}"/>
-            <Button Content="←"    Style="{StaticResource BtnOperator}" Grid.Column="3" Grid.Row="0" FontSize="18"/>
-            <Button Content="1/x"   Style="{StaticResource BtnOperator}" Grid.Column="0" Grid.Row="1" FontSize="18"/>
-            <Button Content="x^2"   Style="{StaticResource BtnOperator}" Grid.Column="1" Grid.Row="1" FontSize="18"/>
-            <Button Content="2√x"  Style="{StaticResource BtnOperator}" Grid.Column="2" Grid.Row="1" FontSize="18"/>
-            <Button Content="/"     Style="{StaticResource BtnOperator}" Grid.Column="3" Grid.Row="1" FontSize="18" CommandParameter="/" Command="{Binding Append, Source={StaticResource viewModel}}"/>
-            <Button Content="X"     Style="{StaticResource BtnOperator}" Grid.Column="3" Grid.Row="2" FontSize="18" CommandParameter="*" Command="{Binding Append, Source={StaticResource viewModel}}"/>
-            <Button Content="-"     Style="{StaticResource BtnOperator}" Grid.Column="3" Grid.Row="3" FontSize="18" CommandParameter="-" Command="{Binding Append, Source={StaticResource viewModel}}"/>
-            <Button Content="+"     Style="{StaticResource BtnOperator}" Grid.Column="3" Grid.Row="4" FontSize="18" CommandParameter="+" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+            <Grid Grid.Row="0" Background="#FFF3F3F3">
+                <Button Style="{StaticResource BtnHistory}" Command="{Binding OpenWindow, Source={StaticResource viewModel}}" HorizontalAlignment="Right" Margin="0,0,10,0">
+                    <Image Source="/Resource/Clock.png"/>
+                </Button>
+            </Grid>
 
-            <Button Content="7"     Style="{StaticResource BtnNumber}"  Grid.Column="0" Grid.Row="2" FontSize="18" CommandParameter="7" Command="{Binding Append, Source={StaticResource viewModel}}"/>
-            <Button Content="8"     Style="{StaticResource BtnNumber}"  Grid.Column="1" Grid.Row="2" FontSize="18" CommandParameter="8" Command="{Binding Append, Source={StaticResource viewModel}}"/>
-            <Button Content="9"     Style="{StaticResource BtnNumber}"  Grid.Column="2" Grid.Row="2" FontSize="18" CommandParameter="9" Command="{Binding Append, Source={StaticResource viewModel}}"/>
-            <Button Content="4"     Style="{StaticResource BtnNumber}"  Grid.Column="0" Grid.Row="3" FontSize="18" CommandParameter="4" Command="{Binding Append, Source={StaticResource viewModel}}"/>
-            <Button Content="5"     Style="{StaticResource BtnNumber}"  Grid.Column="1" Grid.Row="3" FontSize="18" CommandParameter="5" Command="{Binding Append, Source={StaticResource viewModel}}"/>
-            <Button Content="6"     Style="{StaticResource BtnNumber}"  Grid.Column="2" Grid.Row="3" FontSize="18" CommandParameter="6" Command="{Binding Append, Source={StaticResource viewModel}}"/>
-            <Button Content="1"     Style="{StaticResource BtnNumber}"  Grid.Column="0" Grid.Row="4" FontSize="18" CommandParameter="1" Command="{Binding Append, Source={StaticResource viewModel}}"/>
-            <Button Content="2"     Style="{StaticResource BtnNumber}"  Grid.Column="1" Grid.Row="4" FontSize="18" CommandParameter="2" Command="{Binding Append, Source={StaticResource viewModel}}"/>
-            <Button Content="3"     Style="{StaticResource BtnNumber}"  Grid.Column="2" Grid.Row="4" FontSize="18" CommandParameter="3" Command="{Binding Append, Source={StaticResource viewModel}}"/>
-            <Button Content="+/-"   Style="{StaticResource BtnNumber}"  Grid.Column="0" Grid.Row="5" FontSize="18"/>
-            <Button Content="0"     Style="{StaticResource BtnNumber}"  Grid.Column="1" Grid.Row="5" FontSize="18" CommandParameter="0" Command="{Binding Append, Source={StaticResource viewModel}}"/>
-            <Button Content="."     Style="{StaticResource BtnNumber}"  Grid.Column="2" Grid.Row="5" FontSize="18"/>
+            <Grid Grid.Row="1" Background="#FFF3F3F3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="3*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="{Binding DisplayText, Source={StaticResource viewModel}}" TextWrapping="Wrap" Background="#FFF3F3F3" TextAlignment="Right" Grid.Row="0" FontSize="18" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding DisplayNumText, Source={StaticResource viewModel}}" TextWrapping="Wrap" Background="#FFF3F3F3" TextAlignment="Right" Grid.Row="1" FontSize="36" FontWeight="Bold" VerticalAlignment="Center"/>
+            </Grid>
 
-            <Button Content="="     Style="{StaticResource BtnEqual}" Grid.Column="4" Grid.Row="5" Foreground="White" FontSize="24" CommandParameter="=" Command="{Binding Calculate, Source={StaticResource viewModel}}"/>
+            <Grid Grid.Row="2" Background="#FFF3F3F3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Content="MC"  Style="{StaticResource BtnMemory}"  Grid.Column="0" FontSize="14" CommandParameter="C" Command="{Binding Memory, Source={StaticResource viewModel}}"/>
+                <Button Content="MR"  Style="{StaticResource BtnMemory}"  Grid.Column="1" FontSize="14" CommandParameter="R" Command="{Binding Memory, Source={StaticResource viewModel}}"/>
+                <Button Content="M+"  Style="{StaticResource BtnMemory}"  Grid.Column="2" FontSize="14" CommandParameter="+" Command="{Binding Memory, Source={StaticResource viewModel}}"/>
+                <Button Content="M-"  Style="{StaticResource BtnMemory}"  Grid.Column="3" FontSize="14" CommandParameter="-" Command="{Binding Memory, Source={StaticResource viewModel}}"/>
+                <Button Content="MS"  Style="{StaticResource BtnMemory}"  Grid.Column="4" FontSize="14" CommandParameter="S" Command="{Binding Memory, Source={StaticResource viewModel}}"/>
+                <Button Content="M∨" Style="{StaticResource BtnMemory}"  Grid.Column="5" FontSize="14" />
+            </Grid>
+
+            <Grid Grid.Row="3" Background="#FFF3F3F3">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+
+                <Button Content="%"     Style="{StaticResource BtnOperator}" Grid.Column="0" Grid.Row="0" FontSize="18"/>
+                <Button Content="CE"    Style="{StaticResource BtnOperator}" Grid.Column="1" Grid.Row="0" FontSize="18" CommandParameter="CE" Command="{Binding InputClear, Source={StaticResource viewModel}}"/>
+                <Button Content="C"     Style="{StaticResource BtnOperator}" Grid.Column="2" Grid.Row="0" FontSize="18" CommandParameter="C" Command="{Binding InputClear, Source={StaticResource viewModel}}"/>
+                <Button Content="←"    Style="{StaticResource BtnOperator}" Grid.Column="3" Grid.Row="0" FontSize="18"/>
+                <Button Content="1/x"   Style="{StaticResource BtnOperator}" Grid.Column="0" Grid.Row="1" FontSize="18"/>
+                <Button Content="x^2"   Style="{StaticResource BtnOperator}" Grid.Column="1" Grid.Row="1" FontSize="18"/>
+                <Button Content="2√x"  Style="{StaticResource BtnOperator}" Grid.Column="2" Grid.Row="1" FontSize="18"/>
+                <Button Content="/"     Style="{StaticResource BtnOperator}" Grid.Column="3" Grid.Row="1" FontSize="18" CommandParameter="/" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+                <Button Content="X"     Style="{StaticResource BtnOperator}" Grid.Column="3" Grid.Row="2" FontSize="18" CommandParameter="*" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+                <Button Content="-"     Style="{StaticResource BtnOperator}" Grid.Column="3" Grid.Row="3" FontSize="18" CommandParameter="-" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+                <Button Content="+"     Style="{StaticResource BtnOperator}" Grid.Column="3" Grid.Row="4" FontSize="18" CommandParameter="+" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+
+                <Button Content="7"     Style="{StaticResource BtnNumber}"  Grid.Column="0" Grid.Row="2" FontSize="18" CommandParameter="7" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+                <Button Content="8"     Style="{StaticResource BtnNumber}"  Grid.Column="1" Grid.Row="2" FontSize="18" CommandParameter="8" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+                <Button Content="9"     Style="{StaticResource BtnNumber}"  Grid.Column="2" Grid.Row="2" FontSize="18" CommandParameter="9" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+                <Button Content="4"     Style="{StaticResource BtnNumber}"  Grid.Column="0" Grid.Row="3" FontSize="18" CommandParameter="4" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+                <Button Content="5"     Style="{StaticResource BtnNumber}"  Grid.Column="1" Grid.Row="3" FontSize="18" CommandParameter="5" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+                <Button Content="6"     Style="{StaticResource BtnNumber}"  Grid.Column="2" Grid.Row="3" FontSize="18" CommandParameter="6" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+                <Button Content="1"     Style="{StaticResource BtnNumber}"  Grid.Column="0" Grid.Row="4" FontSize="18" CommandParameter="1" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+                <Button Content="2"     Style="{StaticResource BtnNumber}"  Grid.Column="1" Grid.Row="4" FontSize="18" CommandParameter="2" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+                <Button Content="3"     Style="{StaticResource BtnNumber}"  Grid.Column="2" Grid.Row="4" FontSize="18" CommandParameter="3" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+                <Button Content="+/-"   Style="{StaticResource BtnNumber}"  Grid.Column="0" Grid.Row="5" FontSize="18"/>
+                <Button Content="0"     Style="{StaticResource BtnNumber}"  Grid.Column="1" Grid.Row="5" FontSize="18" CommandParameter="0" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+                <Button Content="."     Style="{StaticResource BtnNumber}"  Grid.Column="2" Grid.Row="5" FontSize="18"/>
+
+                <Button Content="="     Style="{StaticResource BtnEqual}" Grid.Column="4" Grid.Row="5" Foreground="White" FontSize="24" CommandParameter="=" Command="{Binding Calculate, Source={StaticResource viewModel}}"/>
+            </Grid>
         </Grid>
-
     </Grid>
 </Window>

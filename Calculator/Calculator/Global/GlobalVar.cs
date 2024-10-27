@@ -27,5 +27,6 @@ namespace Calculator.Global
         public List<string> inputOperator = new List<string>();
 
         public List<double> inputMemList = new List<double>();
+        public List<string> inputLogList = new List<string>();
     }
 }

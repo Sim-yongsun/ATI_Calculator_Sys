@@ -121,6 +121,48 @@
         </Style>
     </Window.Resources>
 
+    <Window.InputBindings>
+        <!--키보드 상단 숫자 입력-->
+        <KeyBinding Key="D0" CommandParameter="0" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+        <KeyBinding Key="D1" CommandParameter="1" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+        <KeyBinding Key="D2" CommandParameter="2" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+        <KeyBinding Key="D3" CommandParameter="3" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+        <KeyBinding Key="D4" CommandParameter="4" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+        <KeyBinding Key="D5" CommandParameter="5" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+        <KeyBinding Key="D6" CommandParameter="6" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+        <KeyBinding Key="D7" CommandParameter="7" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+        <KeyBinding Key="D8" CommandParameter="8" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+        <KeyBinding Key="D9" CommandParameter="9" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+        
+        <!--숫자패드 숫자 입력-->
+        <KeyBinding Key="NumPad0" CommandParameter="0" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+        <KeyBinding Key="NumPad1" CommandParameter="1" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+        <KeyBinding Key="NumPad2" CommandParameter="2" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+        <KeyBinding Key="NumPad3" CommandParameter="3" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+        <KeyBinding Key="NumPad4" CommandParameter="4" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+        <KeyBinding Key="NumPad5" CommandParameter="5" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+        <KeyBinding Key="NumPad6" CommandParameter="6" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+        <KeyBinding Key="NumPad7" CommandParameter="7" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+        <KeyBinding Key="NumPad8" CommandParameter="8" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+        <KeyBinding Key="NumPad9" CommandParameter="9" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+
+        <!--키보드 상단 연산자 입력-->
+        <KeyBinding Key="OemPlus" Modifiers="Shift" CommandParameter="+" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+        <KeyBinding Key="OemMinus" CommandParameter="-" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+        <KeyBinding Key="D8" Modifiers="Shift" CommandParameter="*" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+        <KeyBinding Key="OemQuestion" CommandParameter="/" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+        
+        <!--숫자패드 연산자 입력-->
+        <KeyBinding Key="Add" CommandParameter="+" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+        <KeyBinding Key="Subtract" CommandParameter="-" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+        <KeyBinding Key="Multiply" CommandParameter="*" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+        <KeyBinding Key="Divide" CommandParameter="/" Command="{Binding Append, Source={StaticResource viewModel}}"/>
+
+        <!--엔터키 입력-->
+        <KeyBinding Key="Enter" CommandParameter="=" Command="{Binding Calculate, Source={StaticResource viewModel}}"/>
+        <KeyBinding Key="Return" CommandParameter="=" Command="{Binding Calculate, Source={StaticResource viewModel}}"/>
+    </Window.InputBindings>
+    
     <Grid Margin="0,0,0,0">
 
         <Grid.RowDefinitions>
@@ -142,7 +184,7 @@
                 <RowDefinition Height="3*"/>
             </Grid.RowDefinitions>
             <TextBlock Text="{Binding DisplayText, Source={StaticResource viewModel}}" TextWrapping="Wrap" Background="#FFF3F3F3" TextAlignment="Right" Grid.Row="0" FontSize="18" VerticalAlignment="Center"/>
-            <TextBlock Text="{Binding DisplayText, Source={StaticResource viewModel}}" TextWrapping="Wrap" Background="#FFF3F3F3" TextAlignment="Right" Grid.Row="1" FontSize="36" FontWeight="Bold" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding DisplayNumText, Source={StaticResource viewModel}}" TextWrapping="Wrap" Background="#FFF3F3F3" TextAlignment="Right" Grid.Row="1" FontSize="36" FontWeight="Bold" VerticalAlignment="Center"/>
         </Grid>
 
         <Grid Grid.Row="2" Background="#FFF3F3F3">
@@ -181,8 +223,8 @@
             </Grid.RowDefinitions>
 
             <Button Content="%"     Style="{StaticResource BtnOperator}" Grid.Column="0" Grid.Row="0" FontSize="18"/>
-            <Button Content="CE"    Style="{StaticResource BtnOperator}" Grid.Column="1" Grid.Row="0" FontSize="18"/>
-            <Button Content="C"     Style="{StaticResource BtnOperator}" Grid.Column="2" Grid.Row="0" FontSize="18"/>
+            <Button Content="CE"    Style="{StaticResource BtnOperator}" Grid.Column="1" Grid.Row="0" FontSize="18" CommandParameter="CE" Command="{Binding InputClear, Source={StaticResource viewModel}}"/>
+            <Button Content="C"     Style="{StaticResource BtnOperator}" Grid.Column="2" Grid.Row="0" FontSize="18" CommandParameter="C" Command="{Binding InputClear, Source={StaticResource viewModel}}"/>
             <Button Content="←"    Style="{StaticResource BtnOperator}" Grid.Column="3" Grid.Row="0" FontSize="18"/>
             <Button Content="1/x"   Style="{StaticResource BtnOperator}" Grid.Column="0" Grid.Row="1" FontSize="18"/>
             <Button Content="x^2"   Style="{StaticResource BtnOperator}" Grid.Column="1" Grid.Row="1" FontSize="18"/>

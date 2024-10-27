@@ -17,6 +17,7 @@ namespace Calculator.ViewModel
 
         string inputString = "";
         string displayText = "";
+        string displayNumText = "";
 
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -27,6 +28,7 @@ namespace Calculator.ViewModel
             this.Append = new Append(this);
             this.Calculate = new Calculate(this);
             this.Memory = new Memory(this);
+            this.InputClear = new InputClear(this);
         }
 
         public string InputString
@@ -46,7 +48,20 @@ namespace Calculator.ViewModel
             get { return inputString; }
         }
 
-        public string DisplayText
+        public string DisplayNumText //계산된 결과 Text
+        {
+            internal set
+            {
+                if (displayNumText != value)
+                {
+                    displayNumText = value;
+                    OnPropertyChanged("DisplayNumText");
+                }
+            }
+            get { return displayNumText; }
+        }
+
+        public string DisplayText //버튼 키보드 입력 Text
         {
             internal set
             {
@@ -62,6 +77,7 @@ namespace Calculator.ViewModel
         public ICommand Append { protected set; get; }
         public ICommand Calculate { protected set; get; }
         public ICommand Memory { protected set; get; }
+        public ICommand InputClear { protected set; get; }
 
         protected void OnPropertyChanged(string propertyName)
         {
@@ -151,7 +167,7 @@ namespace Calculator.ViewModel
             mainViewModel.InputString = string.Empty;
             mainViewModel.model.SetGroup(global.inputList, ref global.inputNumber, ref global.inputOperator);
             solution = mainViewModel.model.Calculation(ref global.inputNumber, ref global.inputOperator);
-            mainViewModel.DisplayText = solution.ToString();
+            mainViewModel.DisplayNumText = solution.ToString();
             ListAllClear();
         }
 
@@ -219,12 +235,81 @@ namespace Calculator.ViewModel
         private void ReadList(int listNum)
         {
             global.inputList[0] = global.inputMemList[listNum].ToString();
-            mainViewModel.DisplayText = global.inputList[0];
+            mainViewModel.DisplayNumText = global.inputList[0];
         }
 
         private void ClearList()
         {
             global.inputMemList.Clear();
+        }
+    }
+
+    class InputClear : ICommand
+    {
+        private MainViewModel mainViewModel;
+        private Tools tools = new Tools();
+        private GlobalVar global = GlobalVar.GetInstance();
+        public InputClear(MainViewModel mainViewModel)
+        {
+            this.mainViewModel = mainViewModel;
+        }
+        public event EventHandler CanExecuteChanged
+        {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }
+
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public void Execute(object parameter)
+        {
+            string inputParam = parameter.ToString();
+            if (inputParam == "C")
+            {
+                AllClear();
+            }
+            else if (inputParam == "CE")
+            {
+                nowInputClear();
+            }
+        }
+
+        private void AllClear()
+        {
+            mainViewModel.InputString = string.Empty;
+            mainViewModel.DisplayNumText = string.Empty;
+            mainViewModel.DisplayText = string.Empty;
+
+            global.inputList.Clear();
+        }
+
+        private void nowInputClear()
+        {
+            string oper = string.Empty;
+            string num = string.Empty;
+            string delString = string.Empty;
+            int listCount = global.inputList.Count();
+            if (listCount != 0)
+            {
+                if (tools.NumberCheck(global.inputList[listCount - 1]))
+                {
+                    num = global.inputList[listCount - 1];
+                    global.inputList.RemoveAt(listCount - 1);
+                    delString = num;
+                }
+                else
+                {
+                    oper = global.inputList[listCount - 1];
+                    num = global.inputList[listCount - 2];
+                    global.inputList.RemoveRange(listCount - 2, 2);
+                    delString = string.Format("{0}{1}", num, oper);
+                }
+                mainViewModel.InputString = mainViewModel.InputString.Remove(mainViewModel.InputString.Length - delString.Length);
+                mainViewModel.DisplayNumText = string.Empty;
+            }
         }
     }
 }

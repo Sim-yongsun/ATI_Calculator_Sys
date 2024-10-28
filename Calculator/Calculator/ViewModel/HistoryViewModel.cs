@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Calculator.Global;
+using Calculator.CalculatorClass;
 
 namespace Calculator.ViewModel
 {
@@ -49,7 +49,7 @@ namespace Calculator.ViewModel
     {
         private HistoryViewModel hisViewModel;
         public event EventHandler CanExecuteChanged;
-        private GlobalVar global = GlobalVar.GetInstance();
+        private CalculatorHistory calHistory = CalculatorHistory.GetInstance();
 
         public AddItem(HistoryViewModel hisViewModel)
         {
@@ -69,13 +69,13 @@ namespace Calculator.ViewModel
             int listCount = 0;
             if(param == "M")
             {
-                listCount = global.inputMemList.Count;
-                outList = global.inputMemList.Select(d => d.ToString()).ToList();
+                listCount = calHistory.inputMemList.Count;
+                outList = calHistory.inputMemList.Select(d => d.ToString()).ToList();
             }
             else if(param == "H")
             {
-                listCount = global.inputLogList.Count;
-                outList = global.inputLogList;
+                listCount = calHistory.inputLogList.Count;
+                outList = calHistory.inputLogList;
             }
 
             if(listCount != 0)

@@ -107,7 +107,7 @@ namespace Calculator.ViewModel
         private MainViewModel mainViewModel;
         private Tools tools = new Tools();
         public event EventHandler CanExecuteChanged;
-        private GlobalVar global = GlobalVar.GetInstance();
+        private CalculatorHistory calHistory = CalculatorHistory.GetInstance();
 
         public Append(MainViewModel mainViewModel)
         {
@@ -122,19 +122,19 @@ namespace Calculator.ViewModel
         public void Execute(object parameter)
         {
             string param = parameter.ToString();
-            int listCount = global.inputList.Count;
+            int listCount = calHistory.inputList.Count;
             int listindex = 0;
             if (listCount != 0) { listindex = listCount - 1; }
             if (mainViewModel.DisplayNumText != string.Empty) { mainViewModel.DisplayNumText = string.Empty; }
 
             if (param == "+" || param == "-" || param == "*" || param == "/")
             {
-                if (listCount != 0 && tools.NumberCheck(global.inputList[listindex]))
+                if (listCount != 0 && tools.NumberCheck(calHistory.inputList[listindex]))
                 {
                     AddList(param);
                 }
             }
-            else if (listCount == 0 || !tools.NumberCheck(global.inputList[listindex]))
+            else if (listCount == 0 || !tools.NumberCheck(calHistory.inputList[listindex]))
             {
                 AddList(param);
             }
@@ -146,12 +146,12 @@ namespace Calculator.ViewModel
 
         private void AddList(string param)
         {
-            global.inputList.Add(param);
+            calHistory.inputList.Add(param);
             mainViewModel.InputString += param;
         }
         private void PlusList(string param, int listNum)
         {
-            global.inputList[listNum] += param;
+            calHistory.inputList[listNum] += param;
             mainViewModel.InputString += param;
         }
     }
@@ -159,7 +159,7 @@ namespace Calculator.ViewModel
     class Calculate : ICommand
     {
         private MainViewModel mainViewModel;
-        private GlobalVar global = GlobalVar.GetInstance();
+        private CalculatorHistory calHistory = CalculatorHistory.GetInstance();
         public Calculate(MainViewModel mainViewModel)
         {
             this.mainViewModel = mainViewModel;
@@ -179,8 +179,8 @@ namespace Calculator.ViewModel
         {
             double solution;
             mainViewModel.InputString = string.Empty;
-            mainViewModel.model.SetGroup(global.inputList, ref global.inputNumber, ref global.inputOperator);
-            solution = mainViewModel.model.Calculation(ref global.inputNumber, ref global.inputOperator);
+            mainViewModel.model.SetGroup(calHistory.inputList, ref calHistory.inputNumber, ref calHistory.inputOperator);
+            solution = mainViewModel.model.Calculation(ref calHistory.inputNumber, ref calHistory.inputOperator);
             mainViewModel.DisplayNumText = solution.ToString();
             SaveHistory();
             ListAllClear();
@@ -188,15 +188,15 @@ namespace Calculator.ViewModel
 
         public void ListAllClear()
         {
-            global.inputList.Clear();
-            global.inputNumber.Clear();
-            global.inputOperator.Clear();
+            calHistory.inputList.Clear();
+            calHistory.inputNumber.Clear();
+            calHistory.inputOperator.Clear();
         }
 
         public void SaveHistory()
         {
-            global.inputLogList.Add(mainViewModel.DisplayText);
-            global.inputLogList.Add(mainViewModel.DisplayNumText);
+            calHistory.inputLogList.Add(mainViewModel.DisplayText);
+            calHistory.inputLogList.Add(mainViewModel.DisplayNumText);
         }
     }
 
@@ -205,7 +205,7 @@ namespace Calculator.ViewModel
         private MainViewModel mainViewModel;
         private Tools tools = new Tools();
         public event EventHandler CanExecuteChanged;
-        private GlobalVar global = GlobalVar.GetInstance();
+        private CalculatorHistory calHistory = CalculatorHistory.GetInstance();
 
         public Memory(MainViewModel mainViewModel)
         {
@@ -219,8 +219,8 @@ namespace Calculator.ViewModel
 
         public void Execute(object parameter)
         {
-            int inputListCount = global.inputList.Count;
-            int memListCount = global.inputMemList.Count;
+            int inputListCount = calHistory.inputList.Count;
+            int memListCount = calHistory.inputMemList.Count;
             string inputNum = mainViewModel.InputString;
             string param = parameter.ToString();
 
@@ -243,25 +243,25 @@ namespace Calculator.ViewModel
                 }
                 else
                 {
-                    mainViewModel.model.MemCalculation(param, tools.String2Double(inputNum), memListCount - 1, ref global.inputMemList);
+                    mainViewModel.model.MemCalculation(param, tools.String2Double(inputNum), memListCount - 1, ref calHistory.inputMemList);
                 }
             }
         }
 
         private void AddList(double inputNum)
         {
-            global.inputMemList.Add(inputNum);
+            calHistory.inputMemList.Add(inputNum);
         }
 
         private void ReadList(int listNum)
         {
-            global.inputList[0] = global.inputMemList[listNum].ToString();
-            mainViewModel.DisplayNumText = global.inputList[0];
+            calHistory.inputList[0] = calHistory.inputMemList[listNum].ToString();
+            mainViewModel.DisplayNumText = calHistory.inputList[0];
         }
 
         private void ClearList()
         {
-            global.inputMemList.Clear();
+            calHistory.inputMemList.Clear();
         }
     }
 
@@ -269,7 +269,7 @@ namespace Calculator.ViewModel
     {
         private MainViewModel mainViewModel;
         private Tools tools = new Tools();
-        private GlobalVar global = GlobalVar.GetInstance();
+        private CalculatorHistory calHistory = CalculatorHistory.GetInstance();
         public InputClear(MainViewModel mainViewModel)
         {
             this.mainViewModel = mainViewModel;
@@ -294,7 +294,7 @@ namespace Calculator.ViewModel
             }
             else if (inputParam == "CE")
             {
-                nowInputClear();
+                NowInputClear();
             }
         }
 
@@ -304,28 +304,28 @@ namespace Calculator.ViewModel
             mainViewModel.DisplayNumText = string.Empty;
             mainViewModel.DisplayText = string.Empty;
 
-            global.inputList.Clear();
+            calHistory.inputList.Clear();
         }
 
-        private void nowInputClear()
+        private void NowInputClear()
         {
             string oper = string.Empty;
             string num = string.Empty;
             string delString = string.Empty;
-            int listCount = global.inputList.Count();
+            int listCount = calHistory.inputList.Count();
             if (listCount != 0)
             {
-                if (tools.NumberCheck(global.inputList[listCount - 1]))
+                if (tools.NumberCheck(calHistory.inputList[listCount - 1]))
                 {
-                    num = global.inputList[listCount - 1];
-                    global.inputList.RemoveAt(listCount - 1);
+                    num = calHistory.inputList[listCount - 1];
+                    calHistory.inputList.RemoveAt(listCount - 1);
                     delString = num;
                 }
                 else
                 {
-                    oper = global.inputList[listCount - 1];
-                    num = global.inputList[listCount - 2];
-                    global.inputList.RemoveRange(listCount - 2, 2);
+                    oper = calHistory.inputList[listCount - 1];
+                    num = calHistory.inputList[listCount - 2];
+                    calHistory.inputList.RemoveRange(listCount - 2, 2);
                     delString = string.Format("{0}{1}", num, oper);
                 }
                 mainViewModel.InputString = mainViewModel.InputString.Remove(mainViewModel.InputString.Length - delString.Length);
@@ -336,13 +336,13 @@ namespace Calculator.ViewModel
 
     public class OpenWindow : ICommand
     {
-        private readonly Action _execute;
-        private readonly Func<bool> _canExecute;
+        private readonly Action execute;
+        private readonly Func<bool> canExecute;
 
         public OpenWindow(Action execute, Func<bool> canExecute = null)
         {
-            _execute = execute;
-            _canExecute = canExecute;
+            this.execute = execute;
+            this.canExecute = canExecute;
         }
         public event EventHandler CanExecuteChanged
         {
@@ -352,12 +352,12 @@ namespace Calculator.ViewModel
 
         public bool CanExecute(object parameter)
         {
-            return _canExecute == null || _canExecute();
+            return canExecute == null || canExecute();
         }
 
         public void Execute(object parameter)
         {
-            _execute();
+            execute();
         }
 
         

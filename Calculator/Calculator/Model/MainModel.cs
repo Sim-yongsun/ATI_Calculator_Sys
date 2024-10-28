@@ -115,15 +115,42 @@ namespace Calculator.Model
             }
         }
 
-        //private CalculatorHistory calculatorHistory = new CalculatorHistory();
+        public double AdCalculation(string oper, double num)
+        {
+            double solution = 0;
+            
+            if (oper == "/")
+            {
+                solution = adCalculator.Frac(num);
+            }
+            else if (oper == "^")
+            {
+                solution = adCalculator.Pow(num);
+            }
+            else if (oper == "2x")
+            {
+                solution = adCalculator.Sqrt(num);
+            }
 
+            return solution;
+        }
 
+        public double Percent(int listNum, ref List<string> inputList, bool opNum)
+        {
+            double solution = 0;
 
-        //public void GetHistory()
-        //{
+            if (inputList[listNum] == "*" || inputList[listNum] == "/")
+            {
+                if (opNum) { solution = adCalculator.Divide(tools.String2Double(inputList[listNum + 1]), 100); }
+                else { solution = adCalculator.Divide(tools.String2Double(inputList[listNum - 1]), 100); }
+            }
+            else if (inputList[listNum] == "+" || inputList[listNum] == "-")
+            {
+                if (opNum) { solution = adCalculator.Multiply(adCalculator.Divide(tools.String2Double(inputList[listNum + 1]), 100), tools.String2Double(inputList[listNum + 1])); }
+                else { solution = adCalculator.Multiply(adCalculator.Divide(tools.String2Double(inputList[listNum - 1]), 100), tools.String2Double(inputList[listNum - 1])); }
+            }
 
-        //}
-
-
+            return solution;
+        }
     }
 }

@@ -28,6 +28,7 @@ namespace Calculator.ViewModel
             this.Append = new Append(this);
             this.Calculate = new Calculate(this);
             this.Memory = new Memory(this);
+            this.AdCalculate = new AdCalculate(this);
             this.InputClear = new InputClear(this);
             this.OpenWindow = new OpenWindow(OpenHistoryWindow);
         }
@@ -90,6 +91,7 @@ namespace Calculator.ViewModel
         public ICommand Append { protected set; get; }
         public ICommand Calculate { protected set; get; }
         public ICommand Memory { protected set; get; }
+        public ICommand AdCalculate { protected set; get; }
         public ICommand InputClear { protected set; get; }
         public ICommand OpenWindow { get; }
 
@@ -181,7 +183,7 @@ namespace Calculator.ViewModel
             mainViewModel.InputString = string.Empty;
             mainViewModel.model.SetGroup(calHistory.inputList, ref calHistory.inputNumber, ref calHistory.inputOperator);
             solution = mainViewModel.model.Calculation(ref calHistory.inputNumber, ref calHistory.inputOperator);
-            mainViewModel.DisplayNumText = solution.ToString();
+            mainViewModel.DisplayNumText = Math.Round(solution, 3).ToString();
             SaveHistory();
             ListAllClear();
         }
@@ -262,6 +264,75 @@ namespace Calculator.ViewModel
         private void ClearList()
         {
             calHistory.inputMemList.Clear();
+        }
+    }
+
+    class AdCalculate : ICommand
+    {
+        private MainViewModel mainViewModel;
+        private CalculatorHistory calHistory = CalculatorHistory.GetInstance();
+        private Tools tools = new Tools();
+        public AdCalculate(MainViewModel mainViewModel)
+        {
+            this.mainViewModel = mainViewModel;
+        }
+        public event EventHandler CanExecuteChanged
+        {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }
+
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public void Execute(object parameter)
+        {
+            int inputListCount = calHistory.inputList.Count;
+            string inputNum = mainViewModel.InputString;
+            string param = parameter.ToString();
+            double solution = 0;
+            if (param == "%" && inputListCount > 1)
+            {
+                if (tools.NumberCheck(calHistory.inputList[inputListCount - 1])) // 마지막 입력이 숫자일때
+                {
+                    solution = mainViewModel.model.Percent(inputListCount - 2, ref calHistory.inputList, true);
+                    calHistory.inputList[inputListCount - 1] = solution.ToString();
+                    mainViewModel.InputString = string.Join("", calHistory.inputList.ToArray());
+                }
+                else //마지막 입력이 문자 일 때
+                {
+                    solution = mainViewModel.model.Percent(inputListCount - 1, ref calHistory.inputList, false);
+                    calHistory.inputList.Add(solution.ToString());
+                    mainViewModel.InputString = string.Join("", calHistory.inputList.ToArray());
+                }
+            }
+            else if (inputListCount == 1 && tools.NumberCheck(inputNum))
+            {
+                solution = mainViewModel.model.AdCalculation(param, tools.String2Double(inputNum));
+                Display(param, inputNum, solution);
+            }
+        }
+       
+
+        private void Display(string param, string inputNum, double solution)
+        {
+            mainViewModel.InputString = solution.ToString();
+            mainViewModel.DisplayNumText = solution.ToString();
+
+            if (param == "/")
+            {
+                mainViewModel.DisplayText = string.Format("1/({0})", inputNum);
+            }
+            else if (param == "^")
+            {
+                mainViewModel.DisplayText = string.Format("sqr({0})", inputNum);
+            }
+            else if (param == "2x")
+            {
+                mainViewModel.DisplayText = string.Format("√({0})", inputNum);
+            }
         }
     }
 
@@ -360,6 +431,6 @@ namespace Calculator.ViewModel
             execute();
         }
 
-        
+
     }
 }

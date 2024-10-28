@@ -294,7 +294,7 @@ namespace Calculator.ViewModel
             }
             else if (inputParam == "CE")
             {
-                nowInputClear();
+                NowInputClear();
             }
         }
 
@@ -307,7 +307,7 @@ namespace Calculator.ViewModel
             calHistory.inputList.Clear();
         }
 
-        private void nowInputClear()
+        private void NowInputClear()
         {
             string oper = string.Empty;
             string num = string.Empty;
